@@ -159,19 +159,6 @@ SkyBattle/
 
 ---
 
-## 📖 Citation
-
-```bibtex
-@software{skybattle2026,
-  author = {You, Jiahao},
-  title = {SkyBattle: Multi-Agent Drone Combat Simulator},
-  year = {2026},
-  url = {https://github.com/YYYJH1/SkyBattle}
-}
-```
-
----
-
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) for details.
