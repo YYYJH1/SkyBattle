@@ -1,0 +1,32 @@
+[
+  {
+    "episode": 1,
+    "reward": 1208.0000000000007,
+    "steps": 3000,
+    "winner": "draw"
+  },
+  {
+    "episode": 2,
+    "reward": 1199.9999999999989,
+    "steps": 3000,
+    "winner": "draw"
+  },
+  {
+    "episode": 3,
+    "reward": 1196.499999999994,
+    "steps": 3000,
+    "winner": "draw"
+  },
+  {
+    "episode": 4,
+    "reward": 1127.0999999999324,
+    "steps": 3000,
+    "winner": "draw"
+  },
+  {
+    "episode": 5,
+    "reward": 1208.0000000000007,
+    "steps": 3000,
+    "winner": "draw"
+  }
+]

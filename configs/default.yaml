@@ -1,0 +1,59 @@
+# SkyBattle Default Configuration
+
+# Game Settings
+game:
+  team_size: 3
+  time_limit: 300  # seconds
+  map: plain
+
+# Drone Settings  
+drone:
+  max_hp: 100
+  max_shield: 50
+  max_energy: 100
+  max_speed: 200  # m/s
+  
+  weapons:
+    gun:
+      damage: 5
+      fire_rate: 10
+      range: 300
+    missile:
+      damage: 40
+      count: 4
+      cooldown: 5.0
+
+# Environment Settings
+environment:
+  bounds: [-500, 500]
+  height: [0, 300]
+  wind_enabled: true
+
+# Training Settings
+training:
+  algorithm: mappo
+  
+  # PPO Hyperparameters
+  lr_actor: 0.0003
+  lr_critic: 0.0005
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_ratio: 0.2
+  entropy_coef: 0.01
+  value_coef: 0.5
+  max_grad_norm: 0.5
+  
+  # Training Loop
+  n_epochs: 10
+  batch_size: 256
+  buffer_size: 2048
+  
+  # Checkpointing
+  save_interval: 100
+  log_interval: 10
+
+# Server Settings
+server:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins: ["*"]

@@ -1,0 +1,76 @@
+# SkyBattle Docker Compose Configuration
+version: '3.8'
+
+services:
+  # Backend API Server
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skybattle-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./runs:/app/runs
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend (development)
+  frontend:
+    image: node:18-alpine
+    container_name: skybattle-frontend
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://backend:8000
+
+  # TensorBoard (for training monitoring)
+  tensorboard:
+    image: tensorflow/tensorflow:latest
+    container_name: skybattle-tensorboard
+    ports:
+      - "6006:6006"
+    volumes:
+      - ./runs:/logs
+    command: tensorboard --logdir=/logs --host=0.0.0.0 --port=6006
+    restart: unless-stopped
+
+  # Training Worker (optional, for background training)
+  trainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skybattle-trainer
+    volumes:
+      - ./models:/app/models
+      - ./runs:/app/runs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python train.py --mode standard --episodes 1000
+    profiles:
+      - training
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+networks:
+  default:
+    name: skybattle-network
